@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'screens/home_screen.dart';
+import 'screens/main_screen.dart';
 import 'services/timezone_service.dart';
 import 'services/elevation_service.dart';
 import 'services/elevation_cache_service.dart';
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.transparent,
         useMaterial3: true,
       ),
-      home: const GradientBackground(child: HomeScreen()),
+      home: const GradientBackground(child: MainScreen()),
     );
   }
 }

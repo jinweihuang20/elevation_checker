@@ -34,6 +34,7 @@ class LocationInfo extends StatelessWidget {
         children: [
           _buildInfoRow(
             icon: Icons.location_on,
+            iconColor: Colors.red,
             label: '緯度',
             value: locationData != null
                 ? _formatCoordinates(locationData!.latitude, isLatitude: true)
@@ -42,6 +43,7 @@ class LocationInfo extends StatelessWidget {
           const SizedBox(height: 8),
           _buildInfoRow(
             icon: Icons.location_on,
+            iconColor: Colors.red,
             label: '經度',
             value: locationData != null
                 ? _formatCoordinates(locationData!.longitude, isLatitude: false)
@@ -57,10 +59,13 @@ class LocationInfo extends StatelessWidget {
           ),
           if (locationData != null) ...[
             const SizedBox(height: 4),
-            Text(
-              '時區: ${timezoneService.currentTimezone.name} '
-              '(${timezoneService.getTimezoneOffset()})',
-              style: Theme.of(context).textTheme.bodySmall,
+            Padding(
+              padding: const EdgeInsets.only(left: 30),
+              child: Text(
+                '[時區: ${timezoneService.currentTimezone.name} '
+                '(${timezoneService.getTimezoneOffset()})]',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
             ),
           ],
         ],
@@ -70,12 +75,13 @@ class LocationInfo extends StatelessWidget {
 
   Widget _buildInfoRow({
     required IconData icon,
+    Color? iconColor,
     required String label,
     required String value,
   }) {
     return Row(
       children: [
-        Icon(icon, size: 20),
+        Icon(icon, size: 20, color: iconColor),
         const SizedBox(width: 8),
         Text('$label: ', style: const TextStyle(fontWeight: FontWeight.w500)),
         Expanded(

@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _getCurrentLocation() async {
+    if (!mounted) return;
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -42,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
           timestamp: DateTime.now(),
         );
 
+        if (!mounted) return;
         setState(() {
           _locationData = locationData;
         });
@@ -56,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (elevationResult != null) {
           final (elevation, source) = elevationResult;
           if (elevation != null) {
+            if (!mounted) return;
             setState(() {
               _locationData = locationData.copyWith(
                 elevation: elevation,
@@ -64,25 +67,30 @@ class _HomeScreenState extends State<HomeScreen> {
               _errorMessage = null;
             });
           } else {
+            if (!mounted) return;
             setState(() {
               _errorMessage = '無法獲取海拔數據';
             });
           }
         } else {
+          if (!mounted) return;
           setState(() {
             _errorMessage = '無法獲取海拔數據';
           });
         }
       } else {
+        if (!mounted) return;
         setState(() {
           _errorMessage = '無法獲取位置信息，請確認已授予權限並開啟位置服務';
         });
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _errorMessage = '獲取位置時發生錯誤';
       });
     } finally {
+      if (!mounted) return;
       setState(() {
         _isLoading = false;
       });
@@ -102,8 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('海拔查詢'),
-        centerTitle: true,
+        title: const Text('當前位置海拔'),
+        centerTitle: false,
         backgroundColor:
             const Color.fromARGB(255, 255, 255, 255).withOpacity(0.7),
         elevation: 0,
