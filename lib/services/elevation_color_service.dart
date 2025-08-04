@@ -36,17 +36,17 @@ class ElevationColorService {
     ),
     _ElevationColorRange(
       max: 2000,
-      color: Color(0xFFFFCC80), // 淺橘色 - 中高山
+      color: Color.fromARGB(255, 167, 144, 111), // 淺橘色 - 中高山
       label: '中高山',
     ),
     _ElevationColorRange(
       max: 3000,
-      color: Color(0xFFFFB74D), // 中等橘色 - 高山
+      color: Color.fromARGB(255, 247, 200, 130), // 中等橘色 - 高山
       label: '高山',
     ),
     _ElevationColorRange(
       max: double.infinity,
-      color: Color(0xFFBCAAA4), // 淺棕色 - 極高山
+      color: Color.fromARGB(255, 255, 255, 255), // 淺棕色 - 極高山
       label: '極高山',
     ),
   ];

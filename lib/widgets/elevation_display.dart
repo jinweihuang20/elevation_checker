@@ -151,13 +151,17 @@ class ElevationDisplay extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
-                    Text(
-                      locationData?.elevation?.toStringAsFixed(1) ?? '--',
-                      style:
-                          Theme.of(context).textTheme.displayMedium?.copyWith(
-                                color: textColor,
-                                fontWeight: FontWeight.w600,
-                              ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        locationData?.elevation?.toStringAsFixed(1) ?? '--',
+                        style:
+                            Theme.of(context).textTheme.displayMedium?.copyWith(
+                                  color: textColor,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: 5,
+                                ),
+                      ),
                     ),
                     const SizedBox(width: 8),
                     Text(

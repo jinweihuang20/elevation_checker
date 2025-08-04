@@ -145,6 +145,7 @@ class _QueryScreenState extends State<QueryScreen> {
           )
         ],
       ),
+      backgroundColor: Color.fromARGB(255, 53, 53, 53),
       body: Column(
         children: [
           Column(
@@ -156,9 +157,18 @@ class _QueryScreenState extends State<QueryScreen> {
                     Expanded(
                       child: TextField(
                         controller: _latController,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Colors.white,
+                            ),
                         decoration: const InputDecoration(
                           labelText: '緯度',
-                          hintText: '例如: 25.033964',
+                          hintText: '請輸入緯度',
+                          labelStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                          hintStyle: TextStyle(
+                            color: Color.fromARGB(255, 110, 110, 110),
+                          ),
                         ),
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
@@ -170,9 +180,18 @@ class _QueryScreenState extends State<QueryScreen> {
                     Expanded(
                       child: TextField(
                         controller: _lngController,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Colors.white,
+                            ),
                         decoration: const InputDecoration(
                           labelText: '經度',
-                          hintText: '例如: 121.564468',
+                          hintText: '請輸入經度',
+                          labelStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                          hintStyle: TextStyle(
+                            color: Color.fromARGB(255, 110, 110, 110),
+                          ),
                         ),
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
@@ -211,27 +230,19 @@ class _QueryScreenState extends State<QueryScreen> {
                   ],
                 ),
               ),
-              if (_isLoadingElevation)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: const [
-                      SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: _isLoadingElevation
+                    ? const CircularProgressIndicator()
+                    : Text(
+                        _elevation == null
+                            ? '發生錯誤，請重試'
+                            : '海拔：${_elevation!.toStringAsFixed(1)} 公尺',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Colors.white,
+                            ),
                       ),
-                    ],
-                  ),
-                )
-              else if (_elevation != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    '海拔：${_elevation!.toStringAsFixed(1)} 公尺',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                ),
+              ),
             ],
           ),
           Expanded(

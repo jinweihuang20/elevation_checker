@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+
 import 'package:provider/provider.dart';
 import '../widgets/elevation_display.dart';
 import '../widgets/location_info.dart';
 import '../services/location_service.dart';
 import '../services/elevation_service.dart';
+import '../services/elevation_color_service.dart';
 import '../models/location_data.dart';
 import 'settings_screen.dart';
 
@@ -126,39 +127,46 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevationDisplay(
-                locationData: _locationData,
-                isLoading: _isLoading,
-              ),
-              const SizedBox(height: 20),
-              LocationInfo(
-                locationData: _locationData,
-                errorMessage: _errorMessage,
-              ),
-              if (_errorMessage != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.errorContainer,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      _errorMessage!,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onErrorContainer,
+      backgroundColor: _locationData?.elevation != null
+          ? ElevationColorService.getColorAndLabel(_locationData!.elevation!)
+              .$1
+              .withOpacity(0.9)
+          : Colors.blue.withOpacity(0.1),
+      body: Container(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevationDisplay(
+                  locationData: _locationData,
+                  isLoading: _isLoading,
+                ),
+                const SizedBox(height: 20),
+                LocationInfo(
+                  locationData: _locationData,
+                  errorMessage: _errorMessage,
+                ),
+                if (_errorMessage != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.errorContainer,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        _errorMessage!,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onErrorContainer,
+                        ),
                       ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

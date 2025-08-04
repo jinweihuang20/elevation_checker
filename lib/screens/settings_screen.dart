@@ -193,6 +193,7 @@ class SettingsScreen extends StatelessWidget {
                 subtitle: 'Jinwei Huang',
                 onTap: () =>
                     _launchURL(context, 'https://github.com/jinwei-huang'),
+                enabled: false,
                 showDivider: false,
               ),
             ],
