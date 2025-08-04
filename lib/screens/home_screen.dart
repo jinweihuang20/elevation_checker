@@ -55,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
             await context.read<ElevationService>().getElevation(
                   latitude: position.latitude,
                   longitude: position.longitude,
+                  useGPS: false,
                 );
 
         if (elevationResult != null) {

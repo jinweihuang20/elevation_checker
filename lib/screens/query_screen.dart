@@ -32,6 +32,17 @@ class _QueryScreenState extends State<QueryScreen> {
   bool isValidLongitude(double lng) => lng >= -180 && lng <= 180;
 
   @override
+  void initState() {
+    super.initState();
+    // 延遲 1 秒後再獲取位置，確保所有元件都準備好
+    Future.delayed(const Duration(seconds: 1), () {
+      if (mounted) {
+        _getCurrentLocation();
+      }
+    });
+  }
+
+  @override
   void dispose() {
     _latController.dispose();
     _lngController.dispose();
@@ -94,17 +105,30 @@ class _QueryScreenState extends State<QueryScreen> {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('需要位置權限才能獲取當前位置')),
+            );
+          }
           return;
         }
       }
 
       if (permission == LocationPermission.deniedForever) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('位置權限被永久拒絕，請在設定中開啟')),
+          );
+        }
         return;
       }
 
       // 獲取當前位置
       setState(() => _isLoadingElevation = true);
-      final position = await Geolocator.getCurrentPosition();
+      final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+        timeLimit: const Duration(seconds: 10),
+      );
       final location = LatLng(position.latitude, position.longitude);
 
       // 更新地圖位置
@@ -114,8 +138,9 @@ class _QueryScreenState extends State<QueryScreen> {
       await _updateSelectedLocation(location, useGPS: false);
     } catch (e) {
       if (mounted) {
+        setState(() => _isLoadingElevation = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('無法獲取當前位置')),
+          SnackBar(content: Text('無法獲取當前位置：${e.toString()}')),
         );
       }
     }
@@ -255,6 +280,12 @@ class _QueryScreenState extends State<QueryScreen> {
                 initialCenter: const LatLng(23.973875, 120.982024), // 台灣中心點
                 initialZoom: 7,
                 onTap: (tapPosition, point) => _updateSelectedLocation(point),
+                // 限制地圖縮放範圍
+                maxZoom: 18,
+                minZoom: 3,
+                interactionOptions: const InteractionOptions(
+                  flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+                ),
               ),
               children: [
                 TileLayer(
