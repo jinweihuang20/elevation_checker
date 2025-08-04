@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/elevation_display.dart';
 import '../widgets/location_info.dart';
+import '../widgets/compass_display.dart';
 import '../services/location_service.dart';
 import '../services/elevation_service.dart';
 import '../services/elevation_color_service.dart';
@@ -148,6 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   locationData: _locationData,
                   errorMessage: _errorMessage,
                 ),
+                const SizedBox(height: 20),
+                // const CompassDisplay(),
                 if (_errorMessage != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 16.0),

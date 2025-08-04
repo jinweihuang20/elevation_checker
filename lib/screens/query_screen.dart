@@ -145,7 +145,7 @@ class _QueryScreenState extends State<QueryScreen> {
           )
         ],
       ),
-      backgroundColor: Color.fromARGB(255, 53, 53, 53),
+      backgroundColor: Color.fromARGB(255, 18, 70, 89),
       body: Column(
         children: [
           Column(
@@ -231,7 +231,8 @@ class _QueryScreenState extends State<QueryScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: _isLoadingElevation
                     ? const CircularProgressIndicator()
                     : Text(

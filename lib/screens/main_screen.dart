@@ -34,6 +34,10 @@ class _MainScreenState extends State<MainScreen> {
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
+        backgroundColor: Color.fromARGB(255, 10, 61, 83),
+        labelTextStyle: MaterialStateProperty.all(
+          const TextStyle(color: Colors.white),
+        ),
         onDestinationSelected: (index) {
           setState(() {
             _currentIndex = index;
@@ -41,12 +45,13 @@ class _MainScreenState extends State<MainScreen> {
         },
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home, color: Color.fromARGB(255, 126, 126, 126)),
+            selectedIcon: Icon(Icons.home_outlined),
             label: '首頁',
           ),
           NavigationDestination(
-            icon: Icon(Icons.map_outlined),
+            icon: Icon(Icons.map_sharp,
+                color: Color.fromARGB(255, 126, 126, 126)),
             selectedIcon: Icon(Icons.map_rounded),
             label: '查詢',
           ),
