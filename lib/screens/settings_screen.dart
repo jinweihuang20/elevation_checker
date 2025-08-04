@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../services/timezone_service.dart';
 import '../models/timezone_data.dart';
 import '../services/elevation_cache_service.dart';
@@ -40,6 +41,51 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _launchURL(BuildContext context, String urlString) async {
+    final url = Uri.parse(urlString);
+    try {
+      if (await canLaunchUrl(url)) {
+        final result = await launchUrl(
+          url,
+          mode: LaunchMode.externalApplication,
+          webViewConfiguration: const WebViewConfiguration(
+            enableJavaScript: true,
+            enableDomStorage: true,
+          ),
+        );
+
+        if (!result) {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('無法開啟連結：瀏覽器啟動失敗'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
+        }
+      } else {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('無法開啟連結：${url.toString()}'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('開啟連結時發生錯誤：${e.toString()}'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    }
   }
 
   Future<void> _showClearCacheConfirmation(BuildContext context) async {
@@ -84,13 +130,13 @@ class SettingsScreen extends StatelessWidget {
     final timezoneService = context.watch<TimezoneService>();
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 231, 231, 231),
       appBar: AppBar(
         title: const Text('設定'),
         centerTitle: true,
-        backgroundColor: Colors.white.withOpacity(0.89),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
       ),
+      backgroundColor: const Color.fromARGB(255, 231, 231, 231),
       body: ListView(
         children: [
           const _SettingSection(
@@ -128,18 +174,25 @@ class SettingsScreen extends StatelessWidget {
               ),
             ],
           ),
-          const _SettingSection(
+          _SettingSection(
             title: '關於',
             children: [
-              _SettingTile(
+              const _SettingTile(
                 icon: Icons.info_outline,
                 title: '版本',
                 subtitle: '1.0.0',
                 enabled: false,
               ),
-              _SettingTile(
+              const _SettingTile(
                 icon: Icons.description_outlined,
                 title: '開放原始碼授權',
+              ),
+              _SettingTile(
+                icon: Icons.person_outline,
+                title: '開發者網站',
+                subtitle: 'Jinwei Huang',
+                onTap: () =>
+                    _launchURL(context, 'https://github.com/jinwei-huang'),
                 showDivider: false,
               ),
             ],
@@ -174,8 +227,10 @@ class _SettingSection extends StatelessWidget {
                 ),
           ),
         ),
-        Container(
-          color: Colors.white.withOpacity(0.7),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor.withOpacity(0.7),
+          ),
           child: Column(
             children: children,
           ),
