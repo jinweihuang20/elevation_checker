@@ -1,4 +1,4 @@
-enum DataSource { api, cache, none }
+enum DataSource { api, cache, gps, none }
 
 class LocationData {
   final double latitude;
