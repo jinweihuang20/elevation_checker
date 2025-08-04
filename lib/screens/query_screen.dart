@@ -38,7 +38,8 @@ class _QueryScreenState extends State<QueryScreen> {
     super.dispose();
   }
 
-  Future<void> _updateSelectedLocation(LatLng location) async {
+  Future<void> _updateSelectedLocation(LatLng location,
+      {bool useGPS = false}) async {
     if (!isValidLatitude(location.latitude) ||
         !isValidLongitude(location.longitude)) {
       if (mounted) {
@@ -63,6 +64,7 @@ class _QueryScreenState extends State<QueryScreen> {
       final result = await widget.elevationService.getElevation(
         latitude: location.latitude,
         longitude: location.longitude,
+        useGPS: useGPS,
       );
 
       if (mounted) {
@@ -109,7 +111,7 @@ class _QueryScreenState extends State<QueryScreen> {
       _mapController.move(location, 15);
 
       // 更新位置並查詢海拔
-      await _updateSelectedLocation(location);
+      await _updateSelectedLocation(location, useGPS: false);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -216,7 +218,7 @@ class _QueryScreenState extends State<QueryScreen> {
                           }
                           final location = LatLng(lat, lng);
                           _mapController.move(location, 15);
-                          _updateSelectedLocation(location);
+                          _updateSelectedLocation(location, useGPS: false);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
