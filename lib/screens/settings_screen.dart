@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../services/timezone_service.dart';
 import '../models/timezone_data.dart';
 import '../services/elevation_cache_service.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -113,7 +114,7 @@ class SettingsScreen extends StatelessWidget {
     if (confirmed == true) {
       final cacheService = context.read<ElevationCacheService>();
       await cacheService.clearAll();
-
+      FirebaseAnalytics.instance.logEvent(name: 'user_clear_cache');
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

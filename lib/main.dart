@@ -12,7 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   final analytics = FirebaseAnalytics.instance;
-  analytics.logEvent(name: 'app_opened');
+  analytics.logEvent(name: 'user_open_app');
   final prefs = await SharedPreferences.getInstance();
   final cacheService = ElevationCacheService(prefs);
   await cacheService.init();

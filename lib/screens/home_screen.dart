@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:provider/provider.dart';
 import '../widgets/elevation_display.dart';
 import '../widgets/location_info.dart';
@@ -39,14 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       final position = await LocationService.getCurrentLocation();
       if (position != null) {
+        if (!mounted) return;
+
         // 先更新位置信息
         final locationData = LocationData(
           latitude: position.latitude,
           longitude: position.longitude,
           timestamp: DateTime.now(),
         );
-
-        if (!mounted) return;
         setState(() {
           _locationData = locationData;
         });
@@ -94,7 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
         _errorMessage = '獲取位置時發生錯誤';
       });
     } finally {
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _isLoading = false;
       });
@@ -107,6 +109,12 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context) => const SettingsScreen(),
       ),
     );
+  }
+
+  void _handleRefreshButtonPressed() {
+    FirebaseAnalytics.instance
+        .logEvent(name: 'home_screen_refresh_button_pressed');
+    _getCurrentLocation();
   }
 
   @override
@@ -122,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: _isLoading ? null : _getCurrentLocation,
+            onPressed: _isLoading ? null : _handleRefreshButtonPressed,
           ),
           IconButton(
             icon: const Icon(Icons.settings),
