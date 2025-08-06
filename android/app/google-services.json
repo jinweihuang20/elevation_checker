@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "991996516922",
+    "project_id": "app-status-track",
+    "storage_bucket": "app-status-track.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991996516922:android:e2c881e4e7d141f7ca7303",
+        "android_client_info": {
+          "package_name": "com.example.elevation_checker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoSfxutImRQEfmnVGcsSfUKMjg9F2D2tw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

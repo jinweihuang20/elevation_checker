@@ -5,10 +5,14 @@ import 'screens/main_screen.dart';
 import 'services/timezone_service.dart';
 import 'services/elevation_service.dart';
 import 'services/elevation_cache_service.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp();
+  final analytics = FirebaseAnalytics.instance;
+  analytics.logEvent(name: 'app_opened');
   final prefs = await SharedPreferences.getInstance();
   final cacheService = ElevationCacheService(prefs);
   await cacheService.init();
