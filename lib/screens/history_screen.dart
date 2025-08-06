@@ -281,7 +281,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     );
                                   },
                                   child: Container(
-                                    width: 100,
+                                    width: 130,
                                     padding: const EdgeInsets.all(8),
                                     child: Column(
                                       crossAxisAlignment:
