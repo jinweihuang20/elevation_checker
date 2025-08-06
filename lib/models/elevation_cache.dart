@@ -3,12 +3,14 @@ class CachedElevation {
   final double longitude;
   final double elevation;
   final DateTime timestamp;
+  final bool isFromHomeScreen;
 
   const CachedElevation({
     required this.latitude,
     required this.longitude,
     required this.elevation,
     required this.timestamp,
+    required this.isFromHomeScreen,
   });
 
   // 檢查給定的座標是否在誤差範圍內
@@ -26,6 +28,7 @@ class CachedElevation {
       'longitude': longitude,
       'elevation': elevation,
       'timestamp': timestamp.toIso8601String(),
+      'isFromHomeScreen': isFromHomeScreen,
     };
   }
 
@@ -36,6 +39,7 @@ class CachedElevation {
       longitude: json['longitude'] as double,
       elevation: json['elevation'] as double,
       timestamp: DateTime.parse(json['timestamp'] as String),
+      isFromHomeScreen: json['isFromHomeScreen'] as bool? ?? false,
     );
   }
 }

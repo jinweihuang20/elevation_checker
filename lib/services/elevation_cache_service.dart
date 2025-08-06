@@ -51,8 +51,11 @@ class ElevationCacheService {
   Future<void> addElevation(
     double latitude,
     double longitude,
-    double elevation,
-  ) async {
+    double elevation, {
+    bool isFromHomeScreen = false,
+  }) async {
+    print(
+        '[ElevationCacheService-addElevation] isFromHomeScreen: $isFromHomeScreen');
     // 移除相同位置的舊數據
     _cache.removeWhere(
       (cache) => cache.isWithinRange(latitude, longitude),
@@ -64,6 +67,7 @@ class ElevationCacheService {
       longitude: longitude,
       elevation: elevation,
       timestamp: DateTime.now(),
+      isFromHomeScreen: isFromHomeScreen,
     ));
 
     // 如果超過最大快取數量，移除最舊的數據
@@ -78,7 +82,6 @@ class ElevationCacheService {
 
   // 清除過期的快取
   Future<void> clearExpiredCache() async {
-    final now = DateTime.now();
     _cache.removeWhere((cache) => _isExpired(cache));
     await _saveCache();
   }

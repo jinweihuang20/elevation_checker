@@ -14,6 +14,7 @@ class ElevationService {
     required double latitude,
     required double longitude,
     bool useGPS = true,
+    bool isFromHomeScreen = false,
   }) async {
     try {
       // 首先嘗試從 GPS 獲取
@@ -52,6 +53,7 @@ class ElevationService {
             latitude,
             longitude,
             elevation.toDouble(),
+            isFromHomeScreen: isFromHomeScreen,
           );
 
           return (elevation.toDouble(), DataSource.api);

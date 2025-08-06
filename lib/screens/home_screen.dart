@@ -57,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   latitude: position.latitude,
                   longitude: position.longitude,
                   useGPS: false,
+                  isFromHomeScreen: true,
                 );
 
         if (elevationResult != null) {
