@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import '../services/elevation_service.dart';
+import '../widgets/app_bar_icon.dart';
 import 'settings_screen.dart';
 
 class QueryScreen extends StatefulWidget {
@@ -158,6 +159,8 @@ class _QueryScreenState extends State<QueryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        leading: const AppBarIcon(size: 28),
         title: const Text('海拔查詢'),
         centerTitle: false,
         actions: [
