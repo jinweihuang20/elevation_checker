@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../services/elevation_service.dart';
 import 'home_screen.dart';
 import 'query_screen.dart';
+import 'history_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -22,6 +23,7 @@ class _MainScreenState extends State<MainScreen> {
     _screens = [
       const HomeScreen(),
       QueryScreen(elevationService: context.read<ElevationService>()),
+      const HistoryScreen(),
     ];
   }
 
@@ -54,6 +56,12 @@ class _MainScreenState extends State<MainScreen> {
                 color: Color.fromARGB(255, 126, 126, 126)),
             selectedIcon: Icon(Icons.map_rounded),
             label: '查詢',
+          ),
+          NavigationDestination(
+            icon:
+                Icon(Icons.history, color: Color.fromARGB(255, 126, 126, 126)),
+            selectedIcon: Icon(Icons.history_rounded),
+            label: '歷史',
           ),
         ],
       ),

@@ -92,6 +92,12 @@ class ElevationCacheService {
     await _prefs.setString(_cacheKey, json.encode(cacheJson));
   }
 
+  // 獲取首頁的歷史海拔記錄
+  List<CachedElevation> getHomeScreenElevations() {
+    return _cache.where((cache) => cache.isFromHomeScreen).toList()
+      ..sort((a, b) => b.timestamp.compareTo(a.timestamp)); // 按時間降序排序
+  }
+
   // 清除所有快取
   Future<void> clearAll() async {
     _cache.clear();
