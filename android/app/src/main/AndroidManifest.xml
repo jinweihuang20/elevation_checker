@@ -6,7 +6,7 @@
     <uses-feature android:name="android.hardware.sensor.compass" android:required="false" />
     
     <application
-        android:label="elevation_checker"
+        android:label="我的海拔 Elevation"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
