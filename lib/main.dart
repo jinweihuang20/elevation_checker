@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'widgets/analytics_consent_dialog.dart';
 import 'screens/main_screen.dart';
 import 'services/timezone_service.dart';
 import 'services/elevation_service.dart';
@@ -36,6 +37,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      home: Builder(
+        builder: (context) {
+          // 在應用程序啟動後檢查是否需要顯示隱私同意對話框
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            AnalyticsConsentDialog.showIfNeeded(context);
+          });
+          return const GradientBackground(child: MainScreen());
+        },
+      ),
       title: '海拔查詢',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -45,7 +55,6 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.transparent,
         useMaterial3: true,
       ),
-      home: const GradientBackground(child: MainScreen()),
     );
   }
 }

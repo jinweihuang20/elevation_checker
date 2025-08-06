@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../widgets/analytics_consent_switch.dart';
 import '../services/timezone_service.dart';
 import '../models/timezone_data.dart';
 import '../services/elevation_cache_service.dart';
@@ -161,6 +162,12 @@ class SettingsScreen extends StatelessWidget {
                     '(${timezoneService.getTimezoneOffset()})',
                 onTap: () => _showTimezonePicker(context),
               ),
+            ],
+          ),
+          const _SettingSection(
+            title: '隱私設定',
+            children: [
+              AnalyticsConsentSwitch(),
             ],
           ),
           _SettingSection(
