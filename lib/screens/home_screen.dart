@@ -3,7 +3,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:provider/provider.dart';
 import '../widgets/elevation_display.dart';
 import '../widgets/location_info.dart';
-import '../widgets/compass_display.dart';
 import '../widgets/app_bar_icon.dart';
 import '../services/location_service.dart';
 import '../services/elevation_service.dart';
