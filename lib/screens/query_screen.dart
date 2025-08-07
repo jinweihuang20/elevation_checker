@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
+import '../services/firebase_service.dart';
 import '../services/elevation_service.dart';
 import '../widgets/app_bar_icon.dart';
 import 'settings_screen.dart';
@@ -73,7 +73,7 @@ class _QueryScreenState extends State<QueryScreen> {
       _elevation = null;
     });
     // 查詢地圖位置時記錄事件
-    FirebaseAnalytics.instance.logEvent(
+    FirebaseService.instance.logEvent(
       name: 'user_tap_map_location',
       parameters: {
         'latitude': location.latitude,

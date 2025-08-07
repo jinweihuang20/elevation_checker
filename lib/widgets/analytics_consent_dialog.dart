@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
+import '../services/firebase_service.dart';
 
 class AnalyticsConsentDialog extends StatelessWidget {
-  static const String _consentKey = 'analytics_consent';
   static const String _firstLaunchKey = 'first_launch';
 
   const AnalyticsConsentDialog({super.key});
@@ -25,12 +24,10 @@ class AnalyticsConsentDialog extends StatelessWidget {
   }
 
   Future<void> _handleConsent(BuildContext context, bool consent) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_consentKey, consent);
-    await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(consent);
+    await FirebaseService.instance.setAnalyticsEnabled(consent);
 
     if (consent) {
-      await FirebaseAnalytics.instance.logEvent(
+      await FirebaseService.instance.logEvent(
         name: 'analytics_consent_changed',
         parameters: {'status': 'enabled', 'source': 'first_launch_dialog'},
       );

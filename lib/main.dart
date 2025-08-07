@@ -6,14 +6,16 @@ import 'screens/main_screen.dart';
 import 'services/timezone_service.dart';
 import 'services/elevation_service.dart';
 import 'services/elevation_cache_service.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
+import 'services/firebase_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  final analytics = FirebaseAnalytics.instance;
-  analytics.logEvent(name: 'user_open_app');
+  await FirebaseService.instance.initialize();
+
+  requestPermission();
+  await FirebaseService.instance.getToken();
+  await FirebaseService.instance.logEvent(name: 'user_open_app');
   final prefs = await SharedPreferences.getInstance();
   final cacheService = ElevationCacheService(prefs);
   await cacheService.init();
@@ -29,6 +31,25 @@ void main() async {
       child: const MyApp(),
     ),
   );
+}
+
+void requestPermission() async {
+  NotificationSettings settings =
+      await FirebaseMessaging.instance.requestPermission();
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print('✅ 使用者已授權通知');
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print(
+          '🔔 前景推播通知: Title: ${message.notification} Body: ${message.notification?.body}');
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('🔓 使用者點了通知');
+    });
+  } else {
+    print('❌ 使用者拒絕或未授權通知');
+  }
 }
 
 class MyApp extends StatelessWidget {

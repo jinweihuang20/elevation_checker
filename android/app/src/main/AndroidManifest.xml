@@ -3,12 +3,22 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    
     <uses-feature android:name="android.hardware.sensor.compass" android:required="false" />
     
     <application
         android:label="我的海拔 Elevation"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+ <!-- Firebase 需要的服務 -->
+        <service android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
