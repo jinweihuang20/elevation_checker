@@ -34,6 +34,10 @@ void main() async {
 }
 
 void requestPermission() async {
+  if (!FirebaseService.instance.isAnalyticsEnabled) {
+    return;
+  }
+
   NotificationSettings settings =
       await FirebaseMessaging.instance.requestPermission();
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {

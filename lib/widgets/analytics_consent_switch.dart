@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import '../services/firebase_service.dart';
+  
 class AnalyticsConsentSwitch extends StatefulWidget {
   const AnalyticsConsentSwitch({super.key});
 
@@ -29,6 +30,11 @@ class _AnalyticsConsentSwitchState extends State<AnalyticsConsentSwitch> {
   Future<void> _updateConsentStatus(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_consentKey, value);
+
+    if (!FirebaseService.instance.isAnalyticsEnabled) {
+      return;
+    }
+
     await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(value);
 
     if (value) {

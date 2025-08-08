@@ -9,6 +9,7 @@ import '../services/elevation_service.dart';
 import '../services/elevation_color_service.dart';
 import '../models/location_data.dart';
 import 'settings_screen.dart';
+import '../services/firebase_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -112,8 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _handleRefreshButtonPressed() {
-    FirebaseAnalytics.instance
-        .logEvent(name: 'home_screen_refresh_button_pressed');
+    if (FirebaseService.instance.isAnalyticsEnabled) {
+      FirebaseAnalytics.instance
+          .logEvent(name: 'home_screen_refresh_button_pressed');
+    }
     _getCurrentLocation();
   }
 

@@ -22,7 +22,13 @@ class FirebaseService {
   Future<void> initialize() async {
     if (_initialized) return;
 
-    await Firebase.initializeApp();
+    try {
+      await Firebase.initializeApp();
+    } catch (e) {
+      print('Error initializing Firebase: $e');
+      _analyticsEnabled = false;
+      return;
+    }
     _analytics = FirebaseAnalytics.instance;
 
     // 從 SharedPreferences 讀取用戶分析同意狀態
