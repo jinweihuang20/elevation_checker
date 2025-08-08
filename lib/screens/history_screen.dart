@@ -66,6 +66,38 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
   }
 
+  Future<void> _deleteUserEleDataFromCache() async {
+    //show dialog to confirm
+    final confirmresult = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('確認'),
+        content: const Text('確定要清除所有數據嗎？'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('取消'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('確定'),
+          ),
+        ],
+      ),
+    );
+    if (confirmresult == null || !confirmresult) {
+      print('cancel');
+      return;
+    }
+
+    final elevationCacheService = context.read<ElevationCacheService>();
+    elevationCacheService.clearHomeScreenElevations();
+    setState(() {
+      _homeScreenElevations = [];
+      _markers = [];
+    });
+  }
+
   void _updateMarkers() {
     _markers = _homeScreenElevations.map((elevation) {
       return Marker(
@@ -178,6 +210,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
         leading: const AppBarIcon(size: 28),
         actions: [
           IconButton(
+            icon: const Icon(Icons.delete, color: Colors.red),
+            onPressed: _deleteUserEleDataFromCache,
+            tooltip: '清除數據',
+          ),
+          IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: _loadHomeScreenElevations,
             tooltip: '重新載入',
@@ -213,8 +250,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 Expanded(
                   flex: 1,
                   child: Container(
+                    padding: const EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
@@ -234,7 +272,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   color: Colors.amber),
                               const SizedBox(width: 8),
                               const Text(
-                                '海拔排行榜',
+                                '我的海拔排行榜',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,

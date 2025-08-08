@@ -98,6 +98,12 @@ class ElevationCacheService {
       ..sort((a, b) => b.timestamp.compareTo(a.timestamp)); // 按時間降序排序
   }
 
+  // 清除首頁的歷史海拔記錄
+  Future<void> clearHomeScreenElevations() async {
+    _cache.removeWhere((cache) => cache.isFromHomeScreen);
+    await _saveCache();
+  }
+
   // 清除所有快取
   Future<void> clearAll() async {
     _cache.clear();
